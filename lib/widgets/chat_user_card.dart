@@ -62,4 +62,3 @@ class _ChatUserCardState extends State<ChatUserCard> {
     );
   }
 }
-
