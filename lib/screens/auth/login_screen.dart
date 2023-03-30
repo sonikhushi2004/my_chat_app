@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:my_chat_app/screens/home_screen.dart';
 import 'package:my_chat_app/helper/dialogs.dart';
 import 'package:my_chat_app/api/apis.dart';
-import '../../main.dart';
+import 'package:my_chat_app/main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -82,11 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  _signOut() async {
-    await FirebaseAuth.instance.signOut();
-    await GoogleSignIn().signOut();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,6 +100,11 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Positioned(
             child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 223, 255, 187),
+                  shape: const StadiumBorder(),
+                  elevation: 1
+              ),
               onPressed: () {
                 _handleGoogleButtonClick();
               },
@@ -130,11 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ]
                 ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 223, 255, 187),
-                shape: StadiumBorder(),
-                elevation: 1,
               ),
             ),
             bottom: mq.height * 0.15,
