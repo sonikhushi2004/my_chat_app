@@ -45,10 +45,7 @@ class _ChatScreenState extends State<ChatScreen> {
               automaticallyImplyLeading: false,
               flexibleSpace: _appBar(),
             ),
-
             backgroundColor: const Color.fromARGB(255, 234, 248, 255),
-
-            //body
             body: Column(
               children: [
                 Expanded(
@@ -56,20 +53,13 @@ class _ChatScreenState extends State<ChatScreen> {
                     stream: APIs.getAllMessages(widget.user),
                     builder: (context, snapshot) {
                       switch (snapshot.connectionState) {
-                      //if data is loading
                         case ConnectionState.waiting:
                         case ConnectionState.none:
                           return const SizedBox();
-
-                      //if some or all data is loaded then show it
                         case ConnectionState.active:
                         case ConnectionState.done:
                           final data = snapshot.data?.docs;
-                          _list = data
-                              ?.map((e) => Message.fromJson(e.data()))
-                              .toList() ??
-                              [];
-
+                          _list = data?.map((e) => Message.fromJson(e.data())).toList() ?? [];
                           if (_list.isNotEmpty) {
                             return ListView.builder(
                                 reverse: true,
@@ -97,12 +87,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: Padding(
                           padding:
                           EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                          child: CircularProgressIndicator(strokeWidth: 2))),
-
-                //chat input filed
+                          child: CircularProgressIndicator(strokeWidth: 2))
+                  ),
                 _chatInput(),
-
-                //show emojis on keyboard emoji button click & vice versa
                 if (_showEmoji)
                   SizedBox(
                     height: mq.height * .35,

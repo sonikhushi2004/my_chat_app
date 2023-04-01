@@ -74,7 +74,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Image.file(File(_image!),
                                 width: mq.height * .2,
                                 height: mq.height * .2,
-                                fit: BoxFit.cover)
+                                fit: BoxFit.cover
+                            )
                         )
                         :
                         ClipRRect(
@@ -124,7 +125,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12)),
                           hintText: 'eg. Happy Singh',
-                          label: const Text('Name')),
+                          label: const Text('Name')
+                      ),
                     ),
                     SizedBox(height: mq.height * .02),
                     TextFormField(
@@ -167,7 +169,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-          )),
+          )
+      ),
     );
   }
 

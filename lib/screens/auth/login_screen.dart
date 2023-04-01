@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 1000), () {
+    Future.delayed(const Duration(milliseconds: 1000), () {
       setState(() {
         _isAnimate = true;
       });
@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (_) => HomeScreen(),
+                builder: (_) => const HomeScreen(),
               )
           );
         }
@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => HomeScreen(),
+                  builder: (_) => const HomeScreen(),
                 )
             );
           });
@@ -60,19 +60,12 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<UserCredential?> _signInWithGoogle() async {
     try{
       await InternetAddress.lookup('google.com');
-      // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      // Obtain the auth details from the request
       final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-      // Create a new credential
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-
-      // Once signed in, return the UserCredential
       return await APIs.auth.signInWithCredential(credential);
     }
     catch(e){
@@ -87,18 +80,22 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Welcome to ChitChat'),
+        title: const Text('Welcome to ChitChat'),
       ),
       body: Stack(
         children: [
           AnimatedPositioned(
-            child: Image.asset('images/chat.png'),
-            duration: Duration(seconds: 1),
+            duration: const Duration(seconds: 1),
             top: mq.height * 0.15,
             width: mq.width * 0.5,
             right: _isAnimate ? mq.width * 0.25 : -mq.width * .5,
+            child: Image.asset('images/chat.png'),
           ),
           Positioned(
+            bottom: mq.height * 0.15,
+            width: mq.width * 0.9,
+            left: mq.width * 0.05,
+            height: mq.height * 0.06,
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 223, 255, 187),
@@ -113,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: mq.height * 0.03,
               ),
               label: RichText(
-                text: TextSpan(
+                text: const TextSpan(
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 16,
@@ -132,10 +129,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            bottom: mq.height * 0.15,
-            width: mq.width * 0.9,
-            left: mq.width * 0.05,
-            height: mq.height * 0.06,
           ),
         ],
       ),

@@ -55,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
         child: Scaffold(
-          //app bar
           appBar: AppBar(
             leading: const Icon(CupertinoIcons.home),
             title: _isSearching

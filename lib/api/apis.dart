@@ -43,7 +43,7 @@ class APIs{
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
             HttpHeaders.authorizationHeader:
-            'key=AAAAQ0Bf7ZA:APA91bGd5IN5v43yedFDo86WiSuyTERjmlr4tyekbw_YW6JrdLFblZcbHdgjDmogWLJ7VD65KGgVbETS0Px7LnKk8NdAz4Z-AsHRp9WoVfArA5cNpfMKcjh_MQI-z96XQk5oIDUwx8D1'
+            'key=AAAALVV4f0g:APA91bEXV0BpTrtsQ2N25HMSFx8YuQhrquWL2Ou8LcyNNH1GxGl9r6ZxYTjqzRaqr5r96InFy_uvqPybGahZV8UZCrAuYqCHFgHV848svsOO3r0kbVWMK9N8JG73HAECz9bPL3NrUkQ_'
           },
           body: jsonEncode(body));
       log('Response status: ${res.statusCode}');
@@ -90,6 +90,8 @@ class APIs{
       .then((user) async{
         if(user.exists){
           me = ChatUser.fromJson(user.data()!);
+          await getFirebaseMessagingToken();
+          APIs.updateActiveStatus(true);
           log('My Data: ${user.data()}');
         }
         else{
@@ -200,8 +202,7 @@ class APIs{
       .snapshots();
   }
 
-  static Future<void> sendMessage(
-      ChatUser chatUser, String msg, Type type) async {
+  static Future<void> sendMessage(ChatUser chatUser, String msg, Type type) async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
     final Message message = Message(
       toId: chatUser.id,
@@ -223,13 +224,12 @@ class APIs{
       .update({'read': DateTime.now().millisecondsSinceEpoch.toString()});
   }
 
-  static Stream<QuerySnapshot> getLastMessage(ChatUser user){
-    return APIs
-        .firestore
-        .collection('chats/${getConversationID(user.id)}/messages/')
-        .orderBy('sent', descending: true)
-        .limit(1)
-        .snapshots();
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(ChatUser user) {
+    return firestore
+      .collection('chats/${getConversationID(user.id)}/messages/')
+      .orderBy('sent', descending: true)
+      .limit(1)
+      .snapshots();
   }
 
   static Future<void> sendChatImage(ChatUser chatUser, File file) async {
